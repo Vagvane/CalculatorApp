@@ -132,3 +132,6 @@ The workflow is defined in `.github/workflows/ci.yml`
 ## License
 
 MIT
+
+---
+**Status:** Ready for CI/CD learning! 🚀
