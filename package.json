@@ -1,0 +1,21 @@
+{
+  "name": "simple-calculator",
+  "version": "1.0.0",
+  "description": "A simple calculator API for learning CI/CD and Docker",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "jest",
+    "dev": "node app.js"
+  },
+  "keywords": ["calculator", "api"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3"
+  }
+}
