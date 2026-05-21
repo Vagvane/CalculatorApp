@@ -5,7 +5,13 @@
       "Bash(git add *)",
       "Bash(git commit -m 'Initial commit: Simple calculator API with Docker and CI/CD *)",
       "Bash(npm test *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "PowerShell(docker --version)",
+      "PowerShell($response = Invoke-WebRequest -Uri http://localhost:3001/health -Method GET; $response.Content)",
+      "Bash(curl -X GET http://localhost:3000/health)",
+      "Bash(curl -X POST http://localhost:3000/add -H 'Content-Type: application/json' -d '{\"a\": 10, \"b\": 5}')",
+      "Bash(curl -X POST http://localhost:3000/power -H 'Content-Type: application/json' -d '{\"a\": 2, \"b\": 8}')",
+      "Bash(curl -X GET http://localhost:3000/)"
     ]
   }
 }

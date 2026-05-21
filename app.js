@@ -4,6 +4,22 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// Root endpoint - shows available endpoints
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Calculator API',
+    version: '1.0.0',
+    endpoints: {
+      health: 'GET /health',
+      add: 'POST /add ({"a": number, "b": number})',
+      subtract: 'POST /subtract ({"a": number, "b": number})',
+      multiply: 'POST /multiply ({"a": number, "b": number})',
+      divide: 'POST /divide ({"a": number, "b": number})',
+      power: 'POST /power ({"a": number, "b": number})'
+    }
+  });
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
