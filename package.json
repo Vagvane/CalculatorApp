@@ -5,8 +5,14 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "jest",
+    "test": "jest --forceExit --detectOpenHandles",
     "dev": "node app.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": ["/node_modules/"],
+    "forceExit": true,
+    "detectOpenHandles": true
   },
   "keywords": ["calculator", "api"],
   "author": "",

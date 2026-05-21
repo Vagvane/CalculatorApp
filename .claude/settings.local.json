@@ -3,7 +3,9 @@
     "allow": [
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit -m 'Initial commit: Simple calculator API with Docker and CI/CD *)"
+      "Bash(git commit -m 'Initial commit: Simple calculator API with Docker and CI/CD *)",
+      "Bash(npm test *)",
+      "Bash(npm install *)"
     ]
   }
 }
