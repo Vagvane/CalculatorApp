@@ -92,6 +92,18 @@ Content-Type: application/json
 ```
 Response: `{ "result": 5 }`
 
+### Power
+```bash
+POST /power
+Content-Type: application/json
+
+{
+  "a": 2,
+  "b": 3
+}
+```
+Response: `{ "result": 8 }`
+
 ## Docker
 
 ### Build Image

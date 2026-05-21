@@ -55,4 +55,20 @@ describe('Calculator API', () => {
     expect(res.statusCode).toBe(400);
     expect(res.body.error).toBe('Both a and b must be numbers');
   });
+
+  test('POST /power - raises to power', async () => {
+    const res = await request(app)
+      .post('/power')
+      .send({ a: 2, b: 3 });
+    expect(res.statusCode).toBe(200);
+    expect(res.body.result).toBe(8);
+  });
+
+  test('Health endpoint returns service info', async () => {
+    const res = await request(app).get('/health');
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('healthy');
+    expect(res.body.service).toBe('Calculator API');
+    expect(res.body.version).toBe('1.0.0');
+  });
 });
