@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 2.5em;
+    }
+
+    .status {
+      text-align: center;
+      color: #666;
+      font-size: 0.9em;
+      margin-bottom: 30px;
+    }
+
+    .status.healthy {
+      color: #4caf50;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1em;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .operations {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: white;
+    }
+
+    .op-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .op-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .op-btn:active {
+      transform: translateY(0);
+    }
+
+    .result-box {
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .result-label {
+      color: #666;
+      font-size: 0.9em;
+      margin-bottom: 10px;
+    }
+
+    .result {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #667eea;
+      word-break: break-all;
+    }
+
+    .error {
+      color: #f44336;
+      background: #ffebee;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .error.show {
+      display: block;
+    }
+
+    .info {
+      background: #e3f2fd;
+      padding: 15px;
+      border-radius: 8px;
+      color: #1976d2;
+      font-size: 0.9em;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧮 Calculator</h1>
+    <div class="status healthy" id="status">✅ API Healthy</div>
+
+    <div class="error" id="error"></div>
+
+    <div class="input-group">
+      <label for="a">First Number (a)</label>
+      <input type="number" id="a" placeholder="Enter first number" value="10">
+    </div>
+
+    <div class="input-group">
+      <label for="b">Second Number (b)</label>
+      <input type="number" id="b" placeholder="Enter second number" value="5">
+    </div>
+
+    <div class="operations">
+      <button class="op-btn" onclick="calculate('add')">➕ Add</button>
+      <button class="op-btn" onclick="calculate('subtract')">➖ Subtract</button>
+      <button class="op-btn" onclick="calculate('multiply')">✖️ Multiply</button>
+      <button class="op-btn" onclick="calculate('divide')">➗ Divide</button>
+      <button class="op-btn" onclick="calculate('power')">⚡ Power</button>
+    </div>
+
+    <div class="result-box">
+      <div class="result-label">Result</div>
+      <div class="result" id="result">-</div>
+    </div>
+
+    <div class="info">
+      <strong>💡 How it works:</strong><br>
+      Enter two numbers and click an operation button. Your request goes to the backend API which calculates the result and returns it instantly!
+    </div>
+  </div>
+
+  <script>
+    // Check API health on page load
+    window.addEventListener('load', async () => {
+      try {
+        const response = await fetch('/health');
+        if (response.ok) {
+          document.getElementById('status').textContent = '✅ API Healthy';
+          document.getElementById('status').classList.add('healthy');
+        }
+      } catch (error) {
+        document.getElementById('status').textContent = '❌ API Offline';
+        document.getElementById('status').classList.remove('healthy');
+      }
+    });
+
+    async function calculate(operation) {
+      const a = parseFloat(document.getElementById('a').value);
+      const b = parseFloat(document.getElementById('b').value);
+      const errorDiv = document.getElementById('error');
+      const resultDiv = document.getElementById('result');
+
+      // Clear error
+      errorDiv.classList.remove('show');
+
+      // Validation
+      if (isNaN(a) || isNaN(b)) {
+        errorDiv.textContent = '❌ Please enter valid numbers';
+        errorDiv.classList.add('show');
+        resultDiv.textContent = '-';
+        return;
+      }
+
+      try {
+        const response = await fetch(`/${operation}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ a, b })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          errorDiv.textContent = `❌ ${data.error}`;
+          errorDiv.classList.add('show');
+          resultDiv.textContent = '-';
+        } else {
+          resultDiv.textContent = data.result;
+          errorDiv.classList.remove('show');
+        }
+      } catch (error) {
+        errorDiv.textContent = `❌ Error: ${error.message}`;
+        errorDiv.classList.add('show');
+        resultDiv.textContent = '-';
+      }
+    }
+
+    // Allow Enter key to calculate
+    document.getElementById('a').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') calculate('add');
+    });
+    document.getElementById('b').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') calculate('add');
+    });
+  </script>
+</body>
+</html>

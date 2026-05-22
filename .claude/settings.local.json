@@ -11,7 +11,9 @@
       "Bash(curl -X GET http://localhost:3000/health)",
       "Bash(curl -X POST http://localhost:3000/add -H 'Content-Type: application/json' -d '{\"a\": 10, \"b\": 5}')",
       "Bash(curl -X POST http://localhost:3000/power -H 'Content-Type: application/json' -d '{\"a\": 2, \"b\": 8}')",
-      "Bash(curl -X GET http://localhost:3000/)"
+      "Bash(curl -X GET http://localhost:3000/)",
+      "PowerShell(docker stop $\\(docker ps -q\\) 2>$null; Start-Sleep -Seconds 1; cd \"C:\\\\Users\\\\Mamba\\\\OneDrive\\\\Desktop\\\\College\\\\MCA4th Sem\\\\CalculatorApp\"; docker build -t calculator:latest .)",
+      "Bash(curl -s http://localhost:3000/)"
     ]
   }
 }
